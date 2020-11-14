@@ -5,14 +5,19 @@ function Grid() {
     const myimg = "./imgs/lizard.jpeg"
     return (
         <div className="grid">
-            <ProgressiveImage 
-                src={'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png'} 
-                placeholder={process.env.PUBLIC_URL + '/imgs/lizard.jpeg'}>
-                {(src, loading) => (
-                    <img style={{ filter: loading ? "blur(5px)" : "blur(0)" }} src={src} alt="projects" />
-                )}
-            </ProgressiveImage>
+            <div className="column">
+                <div className="pod">
+                    <ProgressiveImage 
+                        src={'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png'} 
+                        placeholder={process.env.PUBLIC_URL + '/imgs/lizard.jpeg'}>
+                        {(src, loading) => (
+                            <img style={{ filter: loading ? "blur(5px)" : "blur(0)" }} src={src} alt="projects" />
+                        )}
+                    </ProgressiveImage>
+                </div>
+            </div>
         </div>
+
     );
 }
 

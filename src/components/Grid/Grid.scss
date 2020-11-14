@@ -1,6 +1,15 @@
+.pod {
+    width: 100%;
+}
+
+.column {
+    width: 30%;
+    float: left;
+    margin: 0.5%
+}
+
 .grid {
-    width: 33%;
-    margin: 5%;
+    width: 100%;
 }
 
 img {

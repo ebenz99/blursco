@@ -1,11 +1,15 @@
+
+
 .pod {
     width: 100%;
+    margin-top: var(--marginSize);
 }
 
 .column {
-    width: 30%;
+    width: 28%;
     float: left;
-    margin: 0.5%
+    padding: var(--marginSize);
+    background-color: var(--bg-color);
 }
 
 .grid {
@@ -15,5 +19,6 @@
 img {
     max-width:100%;
     max-height:100%;
+    width: 100%;
     height: auto;
 }

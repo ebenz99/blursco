@@ -2,7 +2,7 @@ import PIL
 from PIL import Image
 import os
 
-num = 0
+num = 76
 files = os.listdir(os.getcwd()+"/imgs")
 sortedFiles = sorted([tuple(x.lower().split('.')) for x in files],key=lambda kv: kv[1])
 sortedFileNames = [x[0] + '.' + x[1] for x in sortedFiles]

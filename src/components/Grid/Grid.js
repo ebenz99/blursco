@@ -6,11 +6,11 @@ function Grid() {
     //hard-coded
     const firstJPGRun = 62;
     const firstPNGRun = 13;
-    const secondJPGRun = 25;
+    const secondJPGRun = 39;
     const numImgs = firstJPGRun + firstPNGRun + secondJPGRun;
 
-    //list of vertical-orientation image indexes (i took "5" out last time, can replace back if uneven)
-    const vImgs = [7,8,9,12,15,25,28,31,36,40,42,46,48,52,53,54,59,62,63,66,67,68,70,71,72,74,77,83,85,86,89,98,99];
+    //list of vertical-orientation image indexes: 100, 104, 105, 106 are vert an unlisted for future ref
+    const vImgs = [5,7,8,9,12,15,25,28,31,36,40,42,46,48,52,53,54,59,62,63,66,67,68,70,71,72,74,77,83,85,86,89,98,99,113];
     const vImgsSet = new Set(vImgs)
 
     //list of all image nums with vertical images first

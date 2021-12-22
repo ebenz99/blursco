@@ -1,9 +1,18 @@
+# make sure to put images in imgs folder in utils dir
+# then create empty placeholders and photos dir in utils dir
+# make sure all jpegs
+# this will re-number all of them, generate placeholders, and put re-numbered images in photos to upload to s3
+# rotate items that were accidentally rotated
+# add number of photos to second jpeg run
+# npm run deploy
+# change url dest in github
+
 import PIL
 from PIL import Image
 import os
 
 # change num for each use, create photos, imgs, and placeholders dir in utils dir
-num = 96
+num = 100
 files = os.listdir(os.getcwd()+"/imgs")
 sortedFiles = sorted([tuple(x.lower().split('.')) for x in files],key=lambda kv: kv[1])
 sortedFileNames = [x[0] + '.' + x[1] for x in sortedFiles]

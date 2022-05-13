@@ -10,7 +10,7 @@ export default class checkIP extends React.Component {
   async componentDidMount() {
     const d = new Date()
     const value = await $.getJSON('https://jsonip.com/');
-    const location = await $.getJSON(('https://freegeoip.app/json/'+ value.ip));
+    const location = await $.getJSON(('https://api.ipbase.com/v1/json/'+ value.ip));
     const data = {
       id:uuid(),
       ip: value.ip,

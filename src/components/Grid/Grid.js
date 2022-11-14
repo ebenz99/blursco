@@ -6,11 +6,11 @@ function Grid() {
     //hard-coded
     const firstJPGRun = 62;
     const firstPNGRun = 13;
-    const secondJPGRun = 61;
+    const secondJPGRun = 79;
     const numImgs = firstJPGRun + firstPNGRun + secondJPGRun;
 
-    //list of vertical-orientation image indexes: 100, 104, 105, 106 are vert an unlisted for future ref
-    const vImgs = [5,7,8,9,12,15,25,28,31,36,40,42,46,48,52,53,54,59,62,63,66,67,68,70,71,72,74,77,83,85,86,89,98,99,113,117,120,121,124,126,127,129,133,135];
+    //list of vertical-orientation image indexes: 7, 12, 99 are vert an unlisted for future ref
+    const vImgs = [5,8,9,15,25,28,31,36,40,42,46,48,52,53,54,59,63,66,67,68,70,71,72,74,77,83,85,86,89,98,100,104,105,106,113,117,120,121,124,126,127,129,133,134,136,140,143,144,145,147,148,149,153];
     const vImgsSet = new Set(vImgs)
 
     //list of all image nums with vertical images first
@@ -32,9 +32,9 @@ function Grid() {
             extension = 'jpg';
         }
         imgs[i%3].push(
-            <div className="pod" key={i}> 
+            <div className="pod" key={i}>
                 <ProgressiveImage
-                    src={`https://ethansitephotos.s3.amazonaws.com/${imgNums[i]}.${extension}`} 
+                    src={`https://ethansitephotos.s3.amazonaws.com/${imgNums[i]}.${extension}`}
                     placeholder={process.env.PUBLIC_URL + `/placeholders/${imgNums[i]}.${extension}`}>
                     {(src, loading) => (
                         <img style={{ filter: loading ? "blur(5px)" : "blur(0)" }} src={src} alt="projects" />

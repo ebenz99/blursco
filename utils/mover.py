@@ -12,7 +12,7 @@ from PIL import Image
 import os
 
 # change num for each use, create photos, imgs, and placeholders dir in utils dir
-num = 114
+num = 134
 files = os.listdir(os.getcwd()+"/imgs")
 sortedFiles = sorted([tuple(x.lower().split('.')) for x in files],key=lambda kv: kv[1])
 sortedFileNames = [x[0] + '.' + x[1] for x in sortedFiles]
@@ -30,4 +30,3 @@ for filename in sortedFileNames:
         img = Image.open(os.getcwd()+"/imgs/"+filename)
         img.save(os.getcwd()+"/photos/"+newfilename)
     num+=1
-

@@ -6,7 +6,7 @@ function Grid() {
     //hard-coded
     const firstJPGRun = 62;
     const firstPNGRun = 13;
-    const secondJPGRun = 79;
+    const secondJPGRun = 161;
     const numImgs = firstJPGRun + firstPNGRun + secondJPGRun;
 
     //list of vertical-orientation image indexes: 7, 12, 99 are vert an unlisted for future ref

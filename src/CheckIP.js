@@ -9,29 +9,8 @@ export default class checkIP extends React.Component {
 
   async componentDidMount() {
     const d = new Date()
-    let qs = ""
-    const adjusts = [0,4,5,4,4,4,0,3,3,1]
-    const change = 'aghiww_nhz'
-    for (var i = 0; i < change.length; i++) {
-      qs += String.fromCharCode(change.charAt(i).charCodeAt(0) - adjusts[i]);
-    }
-    const t = 'de12b57ed22ae9464e9669082b989af7'
-    let newt = ''
-    for (var i = 0; i < t.length; i++) {
-      if (i==t.length-1) {
-        newt +=  String.fromCharCode(t.charAt(i).charCodeAt(0) + 1);
-      }
-      else {
-        newt+=t[i]
-      }
-    }
-
-
-
-
-
     const value = await $.getJSON('https://jsonip.com/');
-    const location = await $.getJSON(('http://api.ipstack.com/'+ value.ip + '?' + qs +'=' + newt));
+    const location = await $.getJSON(('https://ipapi.co/'+ value.ip + '/json'));
     const data = {
       id:uuid(),
       ip: value.ip,

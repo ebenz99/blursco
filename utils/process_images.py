@@ -129,25 +129,37 @@ def process_images(source_folder, output_folder, thumbnail_folder, max_width=192
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Process images for blursco')
-    parser.add_argument('source', help='Source folder containing images')
-    parser.add_argument('--output', default='to_upload', help='Output folder for full-size images')
-    parser.add_argument('--thumbnails', default='thumbnails', help='Output folder for thumbnails')
-    parser.add_argument('--max-width', type=int, default=1920, help='Maximum width for full-size images')
-    parser.add_argument('--thumb-max-width', type=int, default=80, help='Maximum width for thumbnails')
+    # Use source_images folder in utils directory
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    source_folder = os.path.join(script_dir, 'source_images')
     
-    args = parser.parse_args()
+    # Create source_images folder if it doesn't exist
+    if not os.path.exists(source_folder):
+        os.makedirs(source_folder)
+        print(f"Created {source_folder} folder")
+        print("Please add your images to this folder and run the script again")
+        return
     
-    if not os.path.exists(args.source):
-        print(f"Error: Source folder '{args.source}' does not exist")
-        sys.exit(1)
+    # Check if source folder has any images
+    supported_extensions = {'.jpg', '.jpeg', '.png', '.bmp', '.tiff', '.webp'}
+    image_files = [f for f in os.listdir(source_folder) 
+                   if os.path.splitext(f)[1].lower() in supported_extensions]
+    
+    if not image_files:
+        print(f"No images found in {source_folder}")
+        print("Please add images to this folder and run the script again")
+        return
+    
+    # Set output folders relative to script directory
+    output_folder = os.path.join(script_dir, 'to_upload')
+    thumbnails_folder = os.path.join(script_dir, 'thumbnails')
     
     process_images(
-        args.source,
-        args.output,
-        args.thumbnails,
-        args.max_width,
-        args.thumb_max_width
+        source_folder,
+        output_folder,
+        thumbnails_folder,
+        max_width=1920,
+        thumbnail_max_width=80
     )
 
 

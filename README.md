@@ -19,9 +19,17 @@ cd utils
 # Install dependencies (first time only)
 pip install -r requirements.txt
 
+# Add your images to the source_images folder
+# The script will create utils/source_images/ if it doesn't exist
+
 # Process your images (this clears previous processed images)
-python process_images.py /path/to/your/new/images
+python process_images.py
 ```
+
+**Folder Structure:**
+- **Input**: `utils/source_images/` - Put your raw images here (any format)
+- **Output**: `utils/to_upload/` - Processed full-size JPEGs ready for S3
+- **Output**: `utils/thumbnails/` - Small thumbnails for placeholder blur effect
 
 This will:
 - Convert all images to JPEG format

@@ -16,6 +16,10 @@ import json
 from datetime import datetime
 import argparse
 import shutil
+from pillow_heif import register_heif_opener
+
+# Register HEIF opener with Pillow
+register_heif_opener()
 
 
 def process_images(source_folder, output_folder, thumbnail_folder, max_width=1920, thumbnail_max_width=80):
@@ -47,7 +51,7 @@ def process_images(source_folder, output_folder, thumbnail_folder, max_width=192
     os.makedirs(s3_thumbnail_folder, exist_ok=True)
     
     # Supported image extensions
-    supported_extensions = {'.jpg', '.jpeg', '.png', '.bmp', '.tiff', '.webp'}
+    supported_extensions = {'.jpg', '.jpeg', '.png', '.bmp', '.tiff', '.webp', '.heic', '.heif'}
     
     manifest = {
         'processed_at': datetime.now().isoformat(),
@@ -153,7 +157,7 @@ def main():
         return
     
     # Check if source folder has any images
-    supported_extensions = {'.jpg', '.jpeg', '.png', '.bmp', '.tiff', '.webp'}
+    supported_extensions = {'.jpg', '.jpeg', '.png', '.bmp', '.tiff', '.webp', '.heic', '.heif'}
     image_files = [f for f in os.listdir(source_folder) 
                    if os.path.splitext(f)[1].lower() in supported_extensions]
     

@@ -49,13 +49,17 @@ def clear_s3_folder(s3_client, bucket_name, folder_path):
 
 
 def upload_file_to_s3(s3_client, local_file, bucket_name, s3_key):
-    """Upload a single file to S3"""
+    """Upload a single file to S3 with public read access"""
     try:
+        content_type = 'image/jpeg' if s3_key.endswith('.jpg') else 'application/json'
         s3_client.upload_file(
             local_file, 
             bucket_name, 
             s3_key,
-            ExtraArgs={'ContentType': 'image/jpeg' if s3_key.endswith('.jpg') else 'application/json'}
+            ExtraArgs={
+                'ContentType': content_type,
+                'ACL': 'public-read'  # Make files publicly readable
+            }
         )
         return True
     except FileNotFoundError:
@@ -162,7 +166,7 @@ def upload_images_to_s3(bucket_name, to_upload_folder='to_upload', thumbnails_fo
 
 def main():
     parser = argparse.ArgumentParser(description='Upload processed images to S3')
-    parser.add_argument('bucket', help='S3 bucket name')
+    parser.add_argument('bucket', help='S3 bucket name', default="ethansitephotos")
     parser.add_argument('--to-upload', default='to_upload', help='Local folder with processed images')
     parser.add_argument('--thumbnails', default='thumbnails', help='Local folder with thumbnails')
     

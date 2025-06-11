@@ -29,7 +29,7 @@ python process_images.py
 **Folder Structure:**
 - **Input**: `utils/source_images/` - Put your raw images here (any format)
 - **Output**: `utils/to_upload/` - Processed full-size JPEGs ready for S3
-- **Output**: `utils/thumbnails/` - Small thumbnails for placeholder blur effect
+- **Output**: `public/placeholders/` - Small thumbnails for local development (also copies to utils/thumbnails for S3 upload)
 
 This will:
 - Convert all images to JPEG format

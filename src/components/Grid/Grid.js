@@ -21,7 +21,7 @@ function Grid() {
                 console.log('No manifest found, using placeholder data');
                 // Fallback placeholder - you should replace this with your actual data
                 const placeholderManifest = {
-                    images: Array.from({ length: 262 }, (_, i) => ({
+                    images: Array.from({ length: 290 }, (_, i) => ({
                         processed_filename: `${i}.jpg`,
                         index: i
                     }))

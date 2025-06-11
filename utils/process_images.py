@@ -25,7 +25,7 @@ def process_images(source_folder, output_folder, thumbnail_folder, max_width=192
     Args:
         source_folder: Path to folder containing original images
         output_folder: Path to save processed full-size images (to_upload)
-        thumbnail_folder: Path to save thumbnail images
+        thumbnail_folder: Path to save thumbnail images (public/placeholders)
         max_width: Maximum width for full-size images
         thumbnail_max_width: Maximum width for thumbnails
     """
@@ -38,6 +38,13 @@ def process_images(source_folder, output_folder, thumbnail_folder, max_width=192
     
     os.makedirs(output_folder, exist_ok=True)
     os.makedirs(thumbnail_folder, exist_ok=True)
+    
+    # Also create utils/thumbnails for S3 upload
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    s3_thumbnail_folder = os.path.join(script_dir, 'thumbnails')
+    if os.path.exists(s3_thumbnail_folder):
+        shutil.rmtree(s3_thumbnail_folder)
+    os.makedirs(s3_thumbnail_folder, exist_ok=True)
     
     # Supported image extensions
     supported_extensions = {'.jpg', '.jpeg', '.png', '.bmp', '.tiff', '.webp'}
@@ -90,8 +97,13 @@ def process_images(source_folder, output_folder, thumbnail_folder, max_width=192
                     new_thumb_height = int(thumb_img.height * ratio)
                     thumb_img = thumb_img.resize((thumbnail_max_width, new_thumb_height), Image.Resampling.LANCZOS)
                 
+                # Save thumbnail to public/placeholders for React app
                 thumbnail_path = os.path.join(thumbnail_folder, new_filename)
                 thumb_img.save(thumbnail_path, 'JPEG', quality=60, optimize=True)
+                
+                # Also save to utils/thumbnails for S3 upload
+                s3_thumbnail_path = os.path.join(s3_thumbnail_folder, new_filename)
+                thumb_img.save(s3_thumbnail_path, 'JPEG', quality=60, optimize=True)
                 
                 # Add to manifest
                 manifest['images'].append({
@@ -150,9 +162,10 @@ def main():
         print("Please add images to this folder and run the script again")
         return
     
-    # Set output folders relative to script directory
+    # Set output folders
     output_folder = os.path.join(script_dir, 'to_upload')
-    thumbnails_folder = os.path.join(script_dir, 'thumbnails')
+    # Put thumbnails in public/placeholders for React app to access
+    thumbnails_folder = os.path.join(script_dir, '..', 'public', 'placeholders')
     
     process_images(
         source_folder,

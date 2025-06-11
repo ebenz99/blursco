@@ -21,3 +21,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+utils/thumbnails/*
+utils/source_images/*
+utils/to_upload/*

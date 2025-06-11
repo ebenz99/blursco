@@ -1,7 +1,34 @@
 import './Grid.scss';
-import ProgressiveImage from "react-progressive-image";
 import shuffle from 'lodash/shuffle';
 import { useState, useEffect, useRef } from 'react';
+
+// Simple progressive image component
+function SimpleProgressiveImage({ fullSrc, placeholderSrc, alt }) {
+    const [currentSrc, setCurrentSrc] = useState(placeholderSrc);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const img = new Image();
+        img.onload = () => {
+            setCurrentSrc(fullSrc);
+            setIsLoading(false);
+        };
+        img.src = fullSrc;
+    }, [fullSrc]);
+
+    return (
+        <img
+            src={currentSrc}
+            alt={alt}
+            style={{
+                filter: isLoading ? "blur(5px)" : "blur(0)",
+                transition: "filter 0.3s ease",
+                width: '100%',
+                height: 'auto'
+            }}
+        />
+    );
+}
 
 function Grid() {
     const [manifest, setManifest] = useState(null);
@@ -63,24 +90,15 @@ function Grid() {
         setLoadedCount(BATCH_SIZE); // Load first batch
     }, [manifest]);
 
-    // Intersection Observer for lazy loading
+    // Progressive loading without scroll detection - just load more images every few seconds
     useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        const imageIndex = parseInt(entry.target.dataset.imageIndex);
-                        if (imageIndex >= loadedCount - 3 && loadedCount < visibleImages.length) {
-                            setLoadedCount(prev => Math.min(prev + BATCH_SIZE, visibleImages.length));
-                        }
-                    }
-                });
-            },
-            { rootMargin: '100px' }
-        );
-
-        observerRef.current = observer;
-        return () => observer.disconnect();
+        if (loadedCount >= visibleImages.length) return;
+        
+        const timer = setTimeout(() => {
+            setLoadedCount(prev => Math.min(prev + BATCH_SIZE, visibleImages.length));
+        }, 1000); // Load next batch every second
+        
+        return () => clearTimeout(timer);
     }, [loadedCount, visibleImages.length]);
 
     if (!manifest || visibleImages.length === 0) {
@@ -94,34 +112,26 @@ function Grid() {
     });
 
     const renderImage = (img, index) => {
-        const shouldLoad = index < loadedCount;
+        const shouldLoadFullImage = index < loadedCount;
         
         return (
-            <div 
-                className="pod" 
-                key={img.index}
-                data-image-index={index}
-                ref={(el) => {
-                    if (el && observerRef.current && index === loadedCount - 3) {
-                        observerRef.current.observe(el);
-                    }
-                }}
-            >
-                {shouldLoad ? (
-                    <ProgressiveImage
-                        src={`https://ethansitephotos.s3.amazonaws.com/site_photos/${img.processed_filename}`}
-                        placeholder={process.env.PUBLIC_URL + `/placeholders/${img.processed_filename}`}
-                    >
-                        {(src, loading) => (
-                            <img 
-                                style={{ filter: loading ? "blur(5px)" : "blur(0)" }} 
-                                src={src} 
-                                alt="gallery" 
-                            />
-                        )}
-                    </ProgressiveImage>
+            <div className="pod" key={img.index}>
+                {shouldLoadFullImage ? (
+                    <SimpleProgressiveImage
+                        fullSrc={`https://ethansitephotos.s3.amazonaws.com/site_photos/${img.processed_filename}`}
+                        placeholderSrc={process.env.PUBLIC_URL + `/placeholders/${img.processed_filename}`}
+                        alt="gallery"
+                    />
                 ) : (
-                    <div className="placeholder-loading">Loading...</div>
+                    <img
+                        src={process.env.PUBLIC_URL + `/placeholders/${img.processed_filename}`}
+                        alt="gallery"
+                        style={{
+                            filter: "blur(5px)",
+                            width: '100%',
+                            height: 'auto'
+                        }}
+                    />
                 )}
             </div>
         );

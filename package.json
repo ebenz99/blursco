@@ -11,10 +11,9 @@
     "gh-pages": "^4.0.0",
     "jquery": "^3.6.0",
     "lodash": "^4.17.21",
-    "node-sass": "^7.0.1",
+    "sass": "^1.77.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
-    "react-progressive-image": "^0.6.0",
     "react-scripts": "5.0.1",
     "react-uuid": "^1.0.2",
     "web-vitals": "^2.1.4"
